@@ -1,0 +1,95 @@
+.main-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-page__container {
+  width: 100%;
+}
+
+.main-page__section {
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.main-page__section-wrapper {
+  width: 100%;
+  max-width: 1280px;
+}
+
+.title__section {
+  background-color: rgb(65, 65, 65);
+}
+
+.main-page__title {
+  margin: 0;
+  text-align: start;
+  color: rgba(167, 0, 0, 0.808);
+  text-shadow: none;
+}
+
+.search-bar__container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  column-gap: 70px;
+}
+
+.search-bar {
+  width: 40%;
+  position: relative;
+}
+
+.search-bar__input {
+  height: 20px;
+  width: 100%;
+  padding: 10px;
+  padding-left: 42px;
+  font-size: 18px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid rgb(167, 167, 167);
+  color: gray;
+  transition: 0.2s;
+  font-style: italic;
+}
+
+.search-bar__input:hover {
+  box-shadow: 1px 1px 4px 1px rgb(27 28 29 / 11%);
+}
+
+.search-bar__input:focus {
+  box-shadow: 1px 1px 4px 1px rgb(27 28 29 / 11%);
+}
+
+.search-bar__icon {
+  background: url('../../icons/loupe.png');
+  background-repeat: no-repeat;
+  bottom: 4px;
+  display: block;
+  height: 32px;
+  opacity: 0.7;
+  position: absolute;
+  left: 7px;
+  width: 32px;
+}
+
+.search-bar__button {
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: 1px solid rgb(167, 167, 167);
+  color: gray;
+  height: 42px;
+  outline: none;
+}
+
+.search-bar__button:active {
+  border: 1px solid rgb(167, 167, 167);
+  outline: none;
+}
+
+.cards__section {
+  background-color: rgb(65, 65, 65);
+}
