@@ -1,5 +1,6 @@
 import React, { Component, CSSProperties } from 'react';
-import { items, IGames } from '../data/games';
+import { items } from '../data/games';
+import { IGames } from 'interfaces/interfaces';
 import './cards.css';
 
 class Cards extends Component {
@@ -22,7 +23,12 @@ class Cards extends Component {
               </div>
               <div className="card__subtitles">
                 <p className="card__subtitle card__genre">{el.genre}</p>
-                <p className="card__subtitle card__release">Release: {el.dateOfRelease}</p>
+                <div className="card__subtitle-wrapper">
+                  <p className="card__subtitle card__release">Release:</p>
+                  <p className="card__subtitle card__release">
+                    {el.dateOfRelease}
+                  </p>
+                </div>
                 <p className="card__subtitle card__platforms">{el.platforms}</p>
               </div>
             </div>

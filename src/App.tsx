@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Header from './components/header';
-import MainPage from './pages/main';
+import MainPage from './pages/mainPage';
 import AboutUs from './pages/about';
 import PageNotFound from './pages/notFound';
 

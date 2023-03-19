@@ -1,15 +1,3 @@
-export interface IGames {
-  id: number;
-  name: string;
-  genre: string;
-  description: string;
-  price: string;
-  posterPath: string;
-  dateOfRelease: string;
-  platforms: string;
-  rate: string;
-}
-
 export const items = [
   {
     id: 0,
@@ -20,7 +8,8 @@ export const items = [
     price: '-',
     posterPath: '',
     dateOfRelease: 'Coming 2023',
-    platforms: 'Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S',
+    platforms:
+      'Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S',
     rate: '-',
   },
   {
@@ -44,7 +33,8 @@ export const items = [
     price: '-',
     posterPath: '',
     dateOfRelease: 'Coming 2023',
-    platforms: 'Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S',
+    platforms:
+      'Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S',
     rate: '-',
   },
   {
@@ -56,7 +46,8 @@ export const items = [
     price: '60$',
     posterPath: '',
     dateOfRelease: 'February 10, 2023',
-    platforms: 'PlayStation 5, Xbox Series X/S, Windows, PlayStation 4, Xbox One, Nintendo Switch',
+    platforms:
+      'PlayStation 5, Xbox Series X/S, Windows, PlayStation 4, Xbox One, Nintendo Switch',
     rate: '9/10',
   },
   {
@@ -128,7 +119,8 @@ export const items = [
     price: '42$',
     posterPath: '',
     dateOfRelease: 'December 2, 2022',
-    platforms: 'Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S',
+    platforms:
+      'Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X/S',
     rate: '6/10',
   },
   {
@@ -152,7 +144,8 @@ export const items = [
     price: '60$',
     posterPath: '',
     dateOfRelease: 'February 25, 2022',
-    platforms: 'PlayStation 5, PlayStation 4, Xbox Series X/S, Xbox One, Windows',
+    platforms:
+      'PlayStation 5, PlayStation 4, Xbox Series X/S, Xbox One, Windows',
     rate: '9/10',
   },
   {
@@ -163,7 +156,7 @@ export const items = [
       'God of War: Ragnarök is a hack and slash action-adventure video game developed by Santa Monica Studio and published by Sony Interactive Entertainment. It is the ninth game in the God of War series and a direct sequel to the 2018 God of War game.',
     price: '60$',
     posterPath: '',
-    dateOfRelease: 'November 9, 2023',
+    dateOfRelease: 'November 9, 2022',
     platforms: 'PlayStation 5, PlayStation 4',
     rate: '10/10',
   },
@@ -212,7 +205,8 @@ export const items = [
     price: '50$',
     posterPath: '',
     dateOfRelease: 'October 17, 2022',
-    platforms: 'PlayStation 5, Xbox Series X/S, Nintendo Switch, Windows, Xbox Cloud Gaming',
+    platforms:
+      'PlayStation 5, Xbox Series X/S, Nintendo Switch, Windows, Xbox Cloud Gaming',
     rate: '9/10',
   },
   {

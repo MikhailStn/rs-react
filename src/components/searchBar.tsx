@@ -1,7 +1,8 @@
 import React from 'react';
+import { ISearch } from 'interfaces/interfaces';
 
-class SearchBar extends React.Component<{ text?: string }, { val: string }> {
-  constructor(props: { text: string }) {
+class SearchBar extends React.Component<ISearch, { val: string }> {
+  constructor(props: ISearch) {
     super(props);
     this.state = { val: localStorage.getItem('curr-search-val') || '' };
   }

@@ -53,6 +53,11 @@
   color: #c4c4c4;
 }
 
+.card__subtitle-wrapper {
+  display: flex;
+  column-gap: 5px;
+}
+
 .card__name {
   position: absolute;
   top: 85%;
