@@ -5,14 +5,12 @@ import './cards.css';
 
 class Cards extends Component {
   render() {
-    let i = 0;
     return (
       <div className="cards__container">
         {items.map((el: IGames) => {
           const backroundImage: CSSProperties = {
-            backgroundImage: `url('../../posters/${i}.jpg')`,
+            backgroundImage: `url('../../posters/${el.id}.jpg')`,
           };
-          i++;
           return (
             <div key={el.id} className="card">
               <div className="card__poster" style={backroundImage}>
