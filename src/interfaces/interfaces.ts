@@ -13,3 +13,11 @@ export interface IGames {
   platforms: string;
   rate: string;
 }
+
+export interface ICard {
+  name: string;
+  date: string;
+  genre: string;
+  file: File;
+  consoles: string[]
+}

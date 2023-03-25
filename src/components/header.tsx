@@ -10,6 +10,8 @@ class Header extends Component {
       currPage = 'Main Page';
     } else if (path == '/about') {
       currPage = 'About Us';
+    } else if (path == '/add-card') {
+      currPage = 'Add Card';
     } else {
       currPage = '404';
     }
@@ -48,6 +50,18 @@ class Header extends Component {
                   to={'/about'}
                 >
                   About Us
+                </NavLink>
+              </li>
+              <li className="navigation__item">
+                <NavLink
+                  onClick={() => {
+                    this.clickHandler('/add-card');
+                  }}
+                  className="navigation__link add-card"
+                  id="add-card"
+                  to={'/add-card'}
+                >
+                  Add Card
                 </NavLink>
               </li>
             </ul>
