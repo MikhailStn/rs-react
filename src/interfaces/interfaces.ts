@@ -2,6 +2,10 @@ export interface ISearch {
   [key: string]: string;
 }
 
+export interface IAddCard {
+  [key: string]: string;
+}
+
 export interface IGames {
   id: number;
   name: string;
@@ -19,5 +23,14 @@ export interface ICard {
   date: string;
   genre: string;
   file: File;
-  consoles: string[]
+  consoles: string[];
+}
+
+export interface IValidationForm {
+  name: string;
+  date: string;
+  genre: string;
+  platforms: string[];
+  gender: string;
+  file: string;
 }

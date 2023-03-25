@@ -5,7 +5,7 @@ import './header.css';
 let currPage = '';
 
 class Header extends Component {
-  clickHandler = (path: string) => {
+  checkPage = (path: string) => {
     if (path == '/') {
       currPage = 'Main Page';
     } else if (path == '/about') {
@@ -15,11 +15,15 @@ class Header extends Component {
     } else {
       currPage = '404';
     }
-    this.setState({ page: currPage });
     return currPage;
   };
+
   state = {
-    page: this.clickHandler(window.location.pathname),
+    page: this.checkPage(window.location.pathname),
+  };
+
+  clickHandler = (path: string) => {
+    this.setState({ page: this.checkPage(path) });
   };
 
   render() {

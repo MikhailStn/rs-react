@@ -16,13 +16,14 @@
 
 .new-cards__section {
   background-color: rgb(65, 65, 65);
+  min-height: 50vh;
 }
 
 .form {
   display: flex;
-  gap: 20px;
   width: 80%;
   flex-wrap: wrap;
+  column-gap: 20px;
 }
 
 .form__input {
@@ -77,45 +78,69 @@ select {
   cursor: pointer;
 }
 
-.new-cards__section {
-    height: 50vh;
-}
-
 .form__button {
-    border: 1px solid rgb(167, 167, 167);
-    border-radius: 5px;
-    text-transform: uppercase;
-    width: 60%;
+  border: 1px solid rgb(167, 167, 167);
+  border-radius: 5px;
+  text-transform: uppercase;
+  width: 60%;
 }
 
 .form__select {
-    width: 100%;
-    max-width: none;
+  width: 100%;
+  max-width: none;
 }
 
 .form__submit-photo {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid rgb(167, 167, 167);
-    border-radius: 5px;
-    display: none;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(167, 167, 167);
+  border-radius: 5px;
+  display: none;
 }
 
 .form__submit-photo-label {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid rgb(167, 167, 167);
-    border-radius: 5px;
-    flex-direction: column;
-    width: 200px;
-    cursor: pointer;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(167, 167, 167);
+  border-radius: 5px;
+  flex-direction: column;
+  width: 200px;
+  cursor: pointer;
 }
 
 .choose-file {
-    border-bottom: 1px solid rgb(167, 167, 167);
+  border-bottom: 1px solid rgb(167, 167, 167);
 }
 
+.form__subtitle {
+  width: 60%;
+  display: flex;
+  font-size: 24px;
+  margin: 0;
+  padding: 5px;
+}
+
+.form__radio-container {
+  width: 60%;
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.form__error {
+  width: 60%;
+  color: rgba(167, 0, 0, 0.808);
+  display: flex;
+  margin: 0;
+  padding: 5px;
+  margin-bottom: 10px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.form__radio-label {
+  margin-right: 10px;
+}
