@@ -1,9 +1,8 @@
-import React, { Component, CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import { items } from '../data/games';
 import { IGames } from 'interfaces/interfaces';
 import './cards.css';
 import { ICardsProps } from 'interfaces/interfaces';
-import { INewCardsProps } from 'interfaces/interfaces';
 
 class Cards extends React.Component<ICardsProps> {
   render() {

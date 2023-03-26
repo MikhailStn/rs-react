@@ -19,6 +19,7 @@ export interface IGames {
 }
 
 export interface IValidationForm {
+  id: number;
   name: string;
   date: string;
   genre: string;

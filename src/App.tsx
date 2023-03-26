@@ -6,7 +6,7 @@ import Header from './components/header';
 import MainPage from './pages/mainPage';
 import AboutUs from './pages/about';
 import PageNotFound from './pages/notFound';
-import AddCard from './pages/addCard'
+import AddCard from './pages/addCard';
 
 function App() {
   return (
