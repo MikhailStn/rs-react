@@ -1,6 +1,6 @@
 import { IAddCard } from 'interfaces/interfaces';
 import React, { Component, RefObject } from 'react';
-import { validateForm } from '../pages/addCard';
+import { validateForm } from './form';
 
 class InputCheckbox extends Component {
   windowsCheckboxRef: RefObject<HTMLInputElement>;

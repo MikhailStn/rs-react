@@ -18,14 +18,6 @@ export interface IGames {
   rate: string;
 }
 
-export interface ICard {
-  name: string;
-  date: string;
-  genre: string;
-  file: File;
-  consoles: string[];
-}
-
 export interface IValidationForm {
   name: string;
   date: string;
@@ -33,4 +25,16 @@ export interface IValidationForm {
   platforms: string[];
   gender: string;
   file: string;
+}
+
+export interface ICardsProps {
+  cards: IGames[];
+}
+
+export interface INewCardsProps {
+  newcards: IValidationForm[];
+}
+
+export interface ICreateFormProps {
+  onCreate: (card: IValidationForm) => void;
 }
