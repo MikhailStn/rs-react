@@ -20,7 +20,7 @@ export interface IGames {
 
 export interface IValidationForm {
   id: number;
-  name: string;
+  name: string | undefined;
   date: string;
   genre: string;
   platforms: string[];
@@ -38,4 +38,8 @@ export interface INewCardsProps {
 
 export interface ICreateFormProps {
   onCreate: (card: IValidationForm) => void;
+}
+
+export interface InputNameProps {
+  forwardedRef?: React.RefObject<HTMLInputElement>;
 }

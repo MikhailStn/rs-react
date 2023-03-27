@@ -1,7 +1,15 @@
-import React, { Component, RefObject, CSSProperties } from 'react';
+import React, { Component, RefObject } from 'react';
 import '../pages/addCard.css';
 import { IValidationForm } from 'interfaces/interfaces';
 import { ICreateFormProps } from 'interfaces/interfaces';
+import InputName from './inputName';
+import InputFile from './inputFile';
+import Checkboxes from './checkboxes';
+import RadioButtons from './radioBtns';
+import NewCards from './newCards';
+import { states } from './formState';
+import { addedItems } from './formState';
+import ButtonSubmit from './buttonSubmit';
 
 export let validateForm: IValidationForm = {
   id: 0,
@@ -12,8 +20,6 @@ export let validateForm: IValidationForm = {
   gender: 'Male',
   file: '',
 };
-
-export const addedItems: IValidationForm[] = [];
 
 class Form extends Component {
   nameOfGameRef: RefObject<HTMLInputElement>;
@@ -50,40 +56,7 @@ class Form extends Component {
     this.xboxSeriesCheckboxRef = React.createRef();
   }
 
-  state = {
-    nameInputBorder: {
-      border: '1px solid rgb(167, 167, 167)',
-    },
-    nameErrorVisibility: {
-      opacity: '0',
-    },
-    dateInputBorder: {
-      border: '1px solid rgb(167, 167, 167)',
-    },
-    dateErrorVisibility: {
-      opacity: '0',
-    },
-    platformErrorVisibility: {
-      opacity: '0',
-    },
-    inputFileBorder: {
-      border: '1px solid rgb(167, 167, 167)',
-    },
-    addedCard: {
-      opacity: '0',
-    },
-    inputFileName: 'No file upload',
-    addedItems: addedItems,
-    inputNameVal: '',
-    inputDateVal: '',
-    inputFileVal: '',
-    isWindowsChecked: false,
-    isPs5Checked: false,
-    isPs4Checked: false,
-    isXboxOneChecked: false,
-    isNintendoChecked: false,
-    isXboxSeriesChecked: false,
-  };
+  state = states;
 
   checkForm = () => {
     event?.preventDefault();
@@ -126,7 +99,7 @@ class Form extends Component {
         },
       });
       validateForm.date = '';
-    } else if (this.nameOfGameRef.current?.value) {
+    } else if (this.releaseDateRef.current?.value) {
       this.setState({
         dateInputBorder: {
           border: '1px solid rgb(167, 167, 167)',
@@ -217,62 +190,46 @@ class Form extends Component {
             <div></div>
             <form className="form" ref={this.formRef}>
               <p className="form__subtitle">Name</p>
-              <input
-                className="form__name form__input"
-                type="text"
-                placeholder="Name of game"
-                ref={this.nameOfGameRef}
-                style={this.state.nameInputBorder}
-                value={this.state.inputNameVal}
-                onChange={() => {
+              <InputName
+                forwardRef={this.nameOfGameRef}
+                forwardNameInputBorder={this.state.nameInputBorder}
+                forwardInputNameVal={this.state.inputNameVal}
+                forwardOnchange={() => {
                   this.setState({
                     inputNameVal: this.nameOfGameRef.current?.value,
                   });
                 }}
-              ></input>
-              <label
-                htmlFor="add-file"
-                className="form__submit-photo-label"
-                style={this.state.inputFileBorder}
-              >
-                <input
-                  className="form__submit-photo"
-                  type="file"
-                  id="add-file"
-                  ref={this.photoInputRef}
-                  style={this.state.inputFileBorder}
-                  value={this.state.inputFileVal}
-                  onChange={(event) => {
+              />
+              <InputFile
+                forwardRef={this.photoInputRef}
+                labelStyle={this.state.inputFileBorder}
+                inputStyle={this.state.inputFileBorder}
+                value={this.state.inputFileVal}
+                forwardOnchange={() => {
+                  this.setState({
+                    inputFileVal: this.photoInputRef.current?.value,
+                  });
+                  if (this.photoInputRef.current?.files?.length == 0) {
                     this.setState({
-                      inputFileVal: this.photoInputRef.current?.value,
+                      inputFileName: 'No file upload',
                     });
-                    if (this.photoInputRef.current?.files?.length == 0) {
-                      this.setState({
-                        inputFileName: 'No file upload',
-                      });
-                      validateForm.file = '';
-                    } else if (this.photoInputRef.current?.files?.length == 1) {
-                      this.setState({
-                        inputFileName: `${this.photoInputRef.current?.files[0].name}`,
-                        inputFileBorder: {
-                          border: '1px solid rgb(167, 167, 167)',
-                        },
-                      });
-                      validateForm.file = `${event.target.files?.[0].name}`;
-                      const url = URL.createObjectURL(
-                        this.photoInputRef.current?.files[0]
-                      );
-                      validateForm.file = `${url}`;
-                    }
-                  }}
-                ></input>
-                <span className="form__submit-photo-text choose-file">
-                  Choose file
-                </span>
-                <span className="form__submit-photo-text">
-                  {this.state.inputFileName}
-                </span>
-              </label>
+                    validateForm.file = '';
+                  } else if (this.photoInputRef.current?.files?.length == 1) {
+                    this.setState({
+                      inputFileName: `${this.photoInputRef.current?.files[0].name}`,
+                      inputFileBorder: {
+                        border: '1px solid rgb(167, 167, 167)',
+                      },
+                    });
+                    validateForm.file = `${this.photoInputRef.current?.files[0].name}`;
+                    const url = URL.createObjectURL(
+                      this.photoInputRef.current?.files[0]
+                    );
+                    validateForm.file = `${url}`;
+                  }
+                }}
+                inputFileName={this.state.inputFileName}
+              />
               <p className="form__error" style={this.state.nameErrorVisibility}>
                 Name should not be empty, start with a capital letter and
                 include 5 symbols or more
@@ -316,202 +273,102 @@ class Form extends Component {
               </div>
               <p className="form__error">Choose game genre</p>
               <p className="form__subtitle">Platforms</p>
-              <div className="checkbox__container">
-                <input
-                  className="form__checkbox"
-                  type="checkbox"
-                  id="windows"
-                  ref={this.windowsCheckboxRef}
-                  onClick={() => {
-                    if (this.windowsCheckboxRef.current?.checked) {
-                      validateForm.platforms.push('Windows');
-                    } else {
-                      const index = validateForm.platforms.indexOf('Windows');
-                      validateForm.platforms.splice(index, 1);
-                    }
-                  }}
-                  onChange={() => {
-                    if (this.windowsCheckboxRef.current?.checked) {
-                      this.setState({
-                        isWindowsChecked: true,
-                      });
-                    } else {
-                      const index = validateForm.platforms.indexOf('Windows');
-                      validateForm.platforms.splice(index, 1);
-                      this.setState({
-                        isWindowsChecked: false,
-                      });
-                    }
-                  }}
-                  checked={this.state.isWindowsChecked}
-                ></input>
-                <label className="form__label" htmlFor="windows">
-                  Windows
-                </label>
-                <input
-                  className="form__checkbox"
-                  type="checkbox"
-                  id="ps5"
-                  ref={this.ps5CheckboxRef}
-                  onClick={() => {
-                    if (this.ps5CheckboxRef.current?.checked) {
-                      validateForm.platforms.push('PlayStation 5');
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('PlayStation 5');
-                      validateForm.platforms.splice(index, 1);
-                    }
-                  }}
-                  onChange={() => {
-                    if (this.ps5CheckboxRef.current?.checked) {
-                      this.setState({
-                        isPs5Checked: true,
-                      });
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('PlayStation 5');
-                      validateForm.platforms.splice(index, 1);
-                      this.setState({
-                        isPs5Checked: false,
-                      });
-                    }
-                  }}
-                  checked={this.state.isPs5Checked}
-                ></input>
-                <label className="form__label" htmlFor="ps5">
-                  PlayStation 5
-                </label>
-                <input
-                  className="form__checkbox"
-                  type="checkbox"
-                  id="ps4"
-                  ref={this.ps4CheckboxRef}
-                  onClick={() => {
-                    if (this.ps4CheckboxRef.current?.checked) {
-                      validateForm.platforms.push('PlayStation 4');
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('PlayStation 4');
-                      validateForm.platforms.splice(index, 1);
-                    }
-                  }}
-                  onChange={() => {
-                    if (this.ps4CheckboxRef.current?.checked) {
-                      this.setState({
-                        isPs4Checked: true,
-                      });
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('PlayStation 4');
-                      validateForm.platforms.splice(index, 1);
-                      this.setState({
-                        isPs4Checked: false,
-                      });
-                    }
-                  }}
-                  checked={this.state.isPs4Checked}
-                ></input>
-                <label className="form__label" htmlFor="ps4">
-                  PlayStation 4
-                </label>
-                <input
-                  className="form__checkbox"
-                  type="checkbox"
-                  id="xbox-one"
-                  ref={this.xboxOneCheckboxRef}
-                  onClick={() => {
-                    if (this.xboxOneCheckboxRef.current?.checked) {
-                      validateForm.platforms.push('Xbox One');
-                    } else {
-                      const index = validateForm.platforms.indexOf('Xbox One');
-                      validateForm.platforms.splice(index, 1);
-                    }
-                  }}
-                  onChange={() => {
-                    if (this.xboxOneCheckboxRef.current?.checked) {
-                      this.setState({
-                        isXboxOneChecked: true,
-                      });
-                    } else {
-                      const index = validateForm.platforms.indexOf('Xbox One');
-                      validateForm.platforms.splice(index, 1);
-                      this.setState({
-                        isXboxOneChecked: false,
-                      });
-                    }
-                  }}
-                  checked={this.state.isXboxOneChecked}
-                ></input>
-                <label className="form__label" htmlFor="xbox-one">
-                  Xbox One
-                </label>
-                <input
-                  className="form__checkbox"
-                  type="checkbox"
-                  id="nintendo"
-                  ref={this.nintendoCheckboxRef}
-                  onClick={() => {
-                    if (this.nintendoCheckboxRef.current?.checked) {
-                      validateForm.platforms.push('Nintendo Switch');
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('Nintendo Switch');
-                      validateForm.platforms.splice(index, 1);
-                    }
-                  }}
-                  onChange={() => {
-                    if (this.nintendoCheckboxRef.current?.checked) {
-                      this.setState({
-                        isNintendoChecked: true,
-                      });
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('Nintendo Switch');
-                      validateForm.platforms.splice(index, 1);
-                      this.setState({
-                        isNintendoChecked: false,
-                      });
-                    }
-                  }}
-                  checked={this.state.isNintendoChecked}
-                ></input>
-                <label className="form__label" htmlFor="nintendo">
-                  Nintendo Switch
-                </label>
-                <input
-                  className="form__checkbox"
-                  type="checkbox"
-                  id="xbox-series-x"
-                  ref={this.xboxSeriesCheckboxRef}
-                  onClick={() => {
-                    if (this.xboxSeriesCheckboxRef.current?.checked) {
-                      validateForm.platforms.push('Xbox Series X/S');
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('Xbox Series X/S');
-                      validateForm.platforms.splice(index, 1);
-                    }
-                  }}
-                  onChange={() => {
-                    if (this.xboxSeriesCheckboxRef.current?.checked) {
-                      this.setState({
-                        isXboxSeriesChecked: true,
-                      });
-                    } else {
-                      const index =
-                        validateForm.platforms.indexOf('Xbox Series X/S');
-                      validateForm.platforms.splice(index, 1);
-                      this.setState({
-                        isXboxSeriesChecked: false,
-                      });
-                    }
-                  }}
-                  checked={this.state.isXboxSeriesChecked}
-                ></input>
-                <label className="form__label" htmlFor="xbox-series-x">
-                  Xbox Series X/S
-                </label>
-              </div>
+              <Checkboxes
+                forwardRef1={this.windowsCheckboxRef}
+                onchange1={() => {
+                  if (this.windowsCheckboxRef.current?.checked) {
+                    this.setState({
+                      isWindowsChecked: true,
+                    });
+                  } else {
+                    const index = validateForm.platforms.indexOf('Windows');
+                    validateForm.platforms.splice(index, 1);
+                    this.setState({
+                      isWindowsChecked: false,
+                    });
+                  }
+                }}
+                forwardRef2={this.ps5CheckboxRef}
+                onchange2={() => {
+                  if (this.ps5CheckboxRef.current?.checked) {
+                    this.setState({
+                      isPs5Checked: true,
+                    });
+                  } else {
+                    const index =
+                      validateForm.platforms.indexOf('PlayStation 5');
+                    validateForm.platforms.splice(index, 1);
+                    this.setState({
+                      isPs5Checked: false,
+                    });
+                  }
+                }}
+                forwardRef3={this.ps4CheckboxRef}
+                onchange3={() => {
+                  if (this.ps4CheckboxRef.current?.checked) {
+                    this.setState({
+                      isPs4Checked: true,
+                    });
+                  } else {
+                    const index =
+                      validateForm.platforms.indexOf('PlayStation 4');
+                    validateForm.platforms.splice(index, 1);
+                    this.setState({
+                      isPs4Checked: false,
+                    });
+                  }
+                }}
+                forwardRef4={this.xboxOneCheckboxRef}
+                onchange4={() => {
+                  if (this.xboxOneCheckboxRef.current?.checked) {
+                    this.setState({
+                      isXboxOneChecked: true,
+                    });
+                  } else {
+                    const index = validateForm.platforms.indexOf('Xbox One');
+                    validateForm.platforms.splice(index, 1);
+                    this.setState({
+                      isXboxOneChecked: false,
+                    });
+                  }
+                }}
+                forwardRef5={this.nintendoCheckboxRef}
+                onchange5={() => {
+                  if (this.nintendoCheckboxRef.current?.checked) {
+                    this.setState({
+                      isNintendoChecked: true,
+                    });
+                  } else {
+                    const index =
+                      validateForm.platforms.indexOf('Nintendo Switch');
+                    validateForm.platforms.splice(index, 1);
+                    this.setState({
+                      isNintendoChecked: false,
+                    });
+                  }
+                }}
+                forwardRef6={this.xboxSeriesCheckboxRef}
+                onchange6={() => {
+                  if (this.xboxSeriesCheckboxRef.current?.checked) {
+                    this.setState({
+                      isXboxSeriesChecked: true,
+                    });
+                  } else {
+                    const index =
+                      validateForm.platforms.indexOf('Xbox Series X/S');
+                    validateForm.platforms.splice(index, 1);
+                    this.setState({
+                      isXboxSeriesChecked: false,
+                    });
+                  }
+                }}
+                isWindowsChecked={this.state.isWindowsChecked}
+                isPs5Checked={this.state.isPs5Checked}
+                isPs4Checked={this.state.isPs4Checked}
+                isXboxOneChecked={this.state.isXboxOneChecked}
+                isNintendoChecked={this.state.isNintendoChecked}
+                isXboxSeriesChecked={this.state.isXboxSeriesChecked}
+              />
               <p
                 className="form__error"
                 ref={this.platformsErrRef}
@@ -520,32 +377,8 @@ class Form extends Component {
                 Choose at least one platform
               </p>
               <p className="form__subtitle">I am</p>
-              <div className="form__radio-container">
-                <input
-                  type="radio"
-                  name="radio"
-                  id="radio-male"
-                  defaultChecked
-                  onClick={() => (validateForm.gender = 'Male')}
-                ></input>
-                <label htmlFor="radio-male" className="form__radio-label">
-                  Male
-                </label>
-                <input
-                  type="radio"
-                  name="radio"
-                  id="radio-female"
-                  onClick={() => (validateForm.gender = 'Female')}
-                ></input>
-                <label htmlFor="radio-female">Female</label>
-              </div>
-              <button
-                type="submit"
-                className="form__button"
-                onClick={this.checkForm}
-              >
-                submit
-              </button>
+              <RadioButtons />
+              <ButtonSubmit checkForm={this.checkForm} />
               <p className="form__card-added" style={this.state.addedCard}>
                 Data has been saved
               </p>
@@ -553,37 +386,7 @@ class Form extends Component {
           </div>
         </section>
         <section className="add-card__section new-cards__section">
-          <div className="add-card__section-wrapper">
-            <div className="cards__container">
-              {addedItems.map((el: IValidationForm) => {
-                const backroundImage: CSSProperties = {
-                  backgroundImage: `url('${el.file}')`,
-                };
-                return (
-                  <div className="card" key={el.id}>
-                    <div className="card__poster" style={backroundImage}>
-                      <div className="card__rate" title="Based on Steam rating">
-                        -
-                      </div>
-                      <div className="card__name">{el.name}</div>
-                    </div>
-                    <div className="card__subtitles">
-                      <p className="card__subtitle card__genre">{el.genre}</p>
-                      <div className="card__subtitle-wrapper">
-                        <p className="card__subtitle card__release">Release:</p>
-                        <p className="card__subtitle card__release">
-                          {el.date}
-                        </p>
-                      </div>
-                      <p className="card__subtitle card__platforms">
-                        {el.platforms.join(', ')}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <NewCards />
         </section>
       </div>
     );
