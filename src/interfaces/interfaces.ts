@@ -2,6 +2,10 @@ export interface ISearch {
   [key: string]: string;
 }
 
+export interface IAddCard {
+  [key: string]: string;
+}
+
 export interface IGames {
   id: number;
   name: string;
@@ -12,4 +16,30 @@ export interface IGames {
   dateOfRelease: string;
   platforms: string;
   rate: string;
+}
+
+export interface IValidationForm {
+  id: number;
+  name: string | undefined;
+  date: string;
+  genre: string;
+  platforms: string[];
+  gender: string;
+  file: string;
+}
+
+export interface ICardsProps {
+  cards: IGames[];
+}
+
+export interface INewCardsProps {
+  newcards: IValidationForm[];
+}
+
+export interface ICreateFormProps {
+  onCreate: (card: IValidationForm) => void;
+}
+
+export interface InputNameProps {
+  forwardedRef?: React.RefObject<HTMLInputElement>;
 }

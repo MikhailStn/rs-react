@@ -2,6 +2,7 @@ import React from 'react';
 import './mainPage.css';
 import Cards from '../components/cards';
 import SearchBar from '../components/searchBar';
+import { items } from '../data/games';
 
 function MainPage() {
   return (
@@ -14,7 +15,7 @@ function MainPage() {
         </section>
         <section className="main-page__section cards__section">
           <div className="main-page__section-wrapper">
-            <Cards />
+            <Cards cards={items} />
           </div>
         </section>
       </div>
