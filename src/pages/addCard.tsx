@@ -1,8 +1,8 @@
 import './addCard.css';
-import showForm from '../components/formHooks';
+import ShowForm from '../components/form';
 
-function showAddCard() {
-  return showForm();
+function ShowAddCard() {
+  return ShowForm();
 }
 
-export default showAddCard;
+export default ShowAddCard;

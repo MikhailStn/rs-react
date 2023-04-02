@@ -5,7 +5,7 @@ import SearchBar from '../components/searchBar';
 import { items } from '../data/games';
 
 function MainPage() {
-  function showSearch() {
+  function ShowSearch() {
     const [searchBar, setSearchBar] = React.useState(false);
     React.useEffect(() => {
       setSearchBar(true);
@@ -17,7 +17,7 @@ function MainPage() {
     );
   }
 
-  function showCards() {
+  function ShowCards() {
     const [cards, setCards] = React.useState(false);
     React.useEffect(() => {
       setCards(true);
@@ -33,10 +33,10 @@ function MainPage() {
     <main className="main-page">
       <div className="main-page__container">
         <section className="main-page__section search-bar__section">
-          {showSearch()}
+          {ShowSearch()}
         </section>
         <section className="main-page__section cards__section">
-          {showCards()}
+          {ShowCards()}
         </section>
       </div>
     </main>

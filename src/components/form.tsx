@@ -1,16 +1,10 @@
-import React, { Component, RefObject } from 'react';
+import React from 'react';
 import '../pages/addCard.css';
 import { IValidationForm } from 'interfaces/interfaces';
-import { ICreateFormProps } from 'interfaces/interfaces';
-import InputName from './inputName';
-import InputFile from './inputFile';
-import Checkboxes from './checkboxes';
 import RadioButtons from './radioBtns';
 import NewCards from './newCards';
-import { states } from './formState';
-import { addedItems } from './formState';
-import ButtonSubmit from './buttonSubmit';
-import showForm from './formHooks';
+
+export const addedItems: IValidationForm[] = [];
 
 export let validateForm: IValidationForm = {
   id: 0,
@@ -22,375 +16,313 @@ export let validateForm: IValidationForm = {
   file: '',
 };
 
-class Form extends Component {
-  nameOfGameRef: RefObject<HTMLInputElement>;
-  nameOfGameErr: RefObject<HTMLParagraphElement>;
-  releaseDateRef: RefObject<HTMLInputElement>;
-  releaseDateErr: RefObject<HTMLParagraphElement>;
-  genreRef: RefObject<HTMLSelectElement>;
-  platformsErrRef: RefObject<HTMLParagraphElement>;
-  photoInputRef: RefObject<HTMLInputElement>;
-  cardsContainerRef: RefObject<HTMLDivElement>;
-  formRef: RefObject<HTMLFormElement>;
-  windowsCheckboxRef: RefObject<HTMLInputElement>;
-  ps5CheckboxRef: RefObject<HTMLInputElement>;
-  ps4CheckboxRef: RefObject<HTMLInputElement>;
-  xboxOneCheckboxRef: RefObject<HTMLInputElement>;
-  nintendoCheckboxRef: RefObject<HTMLInputElement>;
-  xboxSeriesCheckboxRef: RefObject<HTMLInputElement>;
-  constructor(props: ICreateFormProps) {
-    super(props);
-    this.nameOfGameRef = React.createRef();
-    this.nameOfGameErr = React.createRef();
-    this.releaseDateRef = React.createRef();
-    this.releaseDateErr = React.createRef();
-    this.genreRef = React.createRef();
-    this.platformsErrRef = React.createRef();
-    this.photoInputRef = React.createRef();
-    this.cardsContainerRef = React.createRef();
-    this.formRef = React.createRef();
-    this.windowsCheckboxRef = React.createRef();
-    this.ps5CheckboxRef = React.createRef();
-    this.ps4CheckboxRef = React.createRef();
-    this.xboxOneCheckboxRef = React.createRef();
-    this.nintendoCheckboxRef = React.createRef();
-    this.xboxSeriesCheckboxRef = React.createRef();
-  }
+function ShowForm() {
+  const [radioBtns, setRadio] = React.useState(false);
+  React.useEffect(() => {
+    setRadio(true);
+  }, []);
+  const [inputFileValue, setInputFileValue] = React.useState('No file upload');
+  const [fileVal, setFileVal] = React.useState('');
+  const [inputValue, setInputValue] = React.useState('');
+  const [inputDateVal, setInputDateVal] = React.useState('');
+  const [nameErr, setNameErr] = React.useState({ opacity: 0 });
+  const [dateErr, setDateErr] = React.useState({ opacity: 0 });
+  const [platformsErr, setPlatformsErr] = React.useState({ opacity: 0 });
+  const [fileErr, setFileErr] = React.useState({ border: '1px solid gray' });
+  const [windowsCheck, setWindowsCheck] = React.useState(false);
+  const [ps5Check, setPs5Check] = React.useState(false);
+  const [ps4Check, setPs4Check] = React.useState(false);
+  const [xboxCheck, setXboxCheck] = React.useState(false);
+  const [nintendoCheck, setNintendoCheck] = React.useState(false);
+  const [xboxSerCheck, setXboxSerCheck] = React.useState(false);
+  const [nameErrBorder, setNameErrBorder] = React.useState({
+    border: '1px solid gray',
+  });
+  const [dateErrBorder, setDateErrBorder] = React.useState({
+    border: '1px solid gray',
+  });
+  const [savedData, setSavedData] = React.useState({ opacity: 0 });
 
-  state = states;
-
-  checkForm = () => {
-    event?.preventDefault();
-    if (
-      this.nameOfGameRef.current?.value &&
-      this.nameOfGameRef.current?.value[0] ==
-        this.nameOfGameRef.current?.value[0].toUpperCase() &&
-      this.nameOfGameRef.current?.value.length >= 5
-    ) {
-      this.setState({
-        nameInputBorder: {
-          border: '1px solid rgb(167, 167, 167)',
-        },
-        nameErrorVisibility: {
-          opacity: '0',
-          visibility: 'hidden',
-        },
-      });
-      validateForm.name = this.nameOfGameRef.current?.value;
+  function checkForm() {
+    if (validateForm.name.length < 5) {
+      setNameErr({ opacity: 1 });
+      setNameErrBorder({ border: '1px solid red' });
     } else {
-      this.setState({
-        nameInputBorder: {
-          border: '1px solid red',
-        },
-        nameErrorVisibility: {
-          opacity: '1',
-          visibility: 'visible',
-        },
-      });
-      validateForm.name = '';
+      setNameErr({ opacity: 0 });
+      setNameErrBorder({ border: '1px solid gray' });
     }
-    if (!this.releaseDateRef.current?.value) {
-      this.setState({
-        dateInputBorder: {
-          border: '1px solid red',
-        },
-        dateErrorVisibility: {
-          opacity: '1',
-          visibility: 'visible',
-        },
-      });
-      validateForm.date = '';
-    } else if (this.releaseDateRef.current?.value) {
-      this.setState({
-        dateInputBorder: {
-          border: '1px solid rgb(167, 167, 167)',
-        },
-        dateErrorVisibility: {
-          opacity: '0',
-          visibility: 'hidden',
-        },
-      });
-      validateForm.date = this.releaseDateRef.current?.value;
+    if (validateForm.date.length == 0) {
+      setDateErr({ opacity: 1 });
+      setDateErrBorder({ border: '1px solid red' });
+    } else {
+      setDateErr({ opacity: 0 });
+      setDateErrBorder({ border: '1px solid gray' });
+    }
+    if (validateForm.file.length == 0) {
+      setFileErr({ border: '1px solid red' });
+    } else {
+      setFileErr({ border: '1px solid gray' });
     }
     if (validateForm.platforms.length == 0) {
-      this.setState({
-        platformErrorVisibility: {
-          opacity: '1',
-          visibility: 'visible',
-        },
-      });
+      setPlatformsErr({ opacity: 1 });
     } else {
-      this.setState({
-        platformErrorVisibility: {
-          opacity: '0',
-          visibility: 'hidden',
-        },
-      });
-    }
-    if (this.photoInputRef.current?.files?.length == 0) {
-      this.setState({
-        inputFileBorder: {
-          border: '1px solid red',
-        },
-      });
-    } else {
-      this.setState({
-        inputFileBorder: {
-          border: '1px solid rgb(167, 167, 167)',
-        },
-      });
+      setPlatformsErr({ opacity: 0 });
     }
     if (
-      validateForm.name != '' &&
-      validateForm.date != '' &&
-      validateForm.platforms.length != 0 &&
-      validateForm.file != ''
+      validateForm.name.length >= 5 &&
+      validateForm.date.length != 0 &&
+      validateForm.file.length != 0 &&
+      validateForm.platforms.length != 0
     ) {
       addedItems.push(validateForm);
-      this.setState({
-        addedItems: addedItems,
-        inputNameVal: '',
-        inputDateVal: '',
-        inputFileVal: '',
-        inputFileName: 'No file upload',
-        isWindowsChecked: false,
-        isPs5Checked: false,
-        isPs4Checked: false,
-        isXboxOneChecked: false,
-        isNintendoChecked: false,
-        isXboxSeriesChecked: false,
-        addedCard: {
-          opacity: 1,
-        },
-      });
+      setSavedData({ opacity: 1 });
       setTimeout(() => {
-        this.setState({
-          addedCard: {
-            opacity: 0,
-          },
-        });
+        setSavedData({ opacity: 0 });
       }, 3000);
+      setInputValue('');
+      setInputFileValue('No file upload');
+      setInputDateVal('');
+      setWindowsCheck(false);
+      setPs5Check(false);
+      setPs4Check(false);
+      setXboxCheck(false);
+      setNintendoCheck(false);
+      setXboxSerCheck(false);
+      setFileVal('');
+      const genre = validateForm.genre;
+      const gender = validateForm.gender;
       validateForm = {
         id: addedItems.length,
         name: '',
         date: '',
-        genre: `${addedItems[addedItems.length - 1].genre}`,
+        genre: genre,
         platforms: [],
-        gender: `${addedItems[addedItems.length - 1].gender}`,
+        gender: gender,
         file: '',
       };
-    } else {
-      return;
     }
-  };
-  render() {
-    return (
-      <div className="add-card__container">
-        <section className="add-card__section form__section">
-          <div className="add-card__section-wrapper">
-            <form className="form" ref={this.formRef}>
-              <p className="form__subtitle">Name</p>
-              <InputName
-                forwardRef={this.nameOfGameRef}
-                forwardNameInputBorder={this.state.nameInputBorder}
-                forwardInputNameVal={this.state.inputNameVal}
-                forwardOnchange={() => {
-                  this.setState({
-                    inputNameVal: this.nameOfGameRef.current?.value,
-                  });
-                }}
-              />
-              <InputFile
-                forwardRef={this.photoInputRef}
-                labelStyle={this.state.inputFileBorder}
-                inputStyle={this.state.inputFileBorder}
-                value={this.state.inputFileVal}
-                forwardOnchange={() => {
-                  this.setState({
-                    inputFileVal: this.photoInputRef.current?.value,
-                  });
-                  if (this.photoInputRef.current?.files?.length == 0) {
-                    this.setState({
-                      inputFileName: 'No file upload',
-                    });
-                    validateForm.file = '';
-                  } else if (this.photoInputRef.current?.files?.length == 1) {
-                    this.setState({
-                      inputFileName: `${this.photoInputRef.current?.files[0].name}`,
-                      inputFileBorder: {
-                        border: '1px solid rgb(167, 167, 167)',
-                      },
-                    });
-                    validateForm.file = `${this.photoInputRef.current?.files[0].name}`;
-                    const url = URL.createObjectURL(
-                      this.photoInputRef.current?.files[0]
-                    );
-                    validateForm.file = `${url}`;
-                  }
-                }}
-                inputFileName={this.state.inputFileName}
-              />
-              <p className="form__error" style={this.state.nameErrorVisibility}>
-                Name should not be empty, start with a capital letter and
-                include 5 symbols or more
-              </p>
-              <p className="form__subtitle">Release date</p>
-              <input
-                className="form__date form__input"
-                type="date"
-                ref={this.releaseDateRef}
-                style={this.state.dateInputBorder}
-                value={this.state.inputDateVal}
-                onChange={() => {
-                  this.setState({
-                    inputDateVal: this.releaseDateRef.current?.value,
-                  });
-                }}
-              ></input>
-              <p
-                className="form__error"
-                ref={this.releaseDateErr}
-                style={this.state.dateErrorVisibility}
-              >
-                Enter release date
-              </p>
-              <p className="form__subtitle">Genre</p>
-              <div className="select">
-                <select
-                  className="form__select form__input"
-                  ref={this.genreRef}
-                  onChange={() => {
-                    if (this.genreRef.current?.value) {
-                      validateForm.genre = this.genreRef.current?.value;
-                    }
-                  }}
-                >
-                  <option>Survival horror</option>
-                  <option>Action/RPG</option>
-                  <option>First person shooter</option>
-                  <option>Hack and slash</option>
-                </select>
-              </div>
-              <p className="form__error">Choose game genre</p>
-              <p className="form__subtitle">Platforms</p>
-              <Checkboxes
-                forwardRef1={this.windowsCheckboxRef}
-                onchange1={() => {
-                  if (this.windowsCheckboxRef.current?.checked) {
-                    this.setState({
-                      isWindowsChecked: true,
-                    });
-                  } else {
-                    const index = validateForm.platforms.indexOf('Windows');
-                    validateForm.platforms.splice(index, 1);
-                    this.setState({
-                      isWindowsChecked: false,
-                    });
-                  }
-                }}
-                forwardRef2={this.ps5CheckboxRef}
-                onchange2={() => {
-                  if (this.ps5CheckboxRef.current?.checked) {
-                    this.setState({
-                      isPs5Checked: true,
-                    });
-                  } else {
-                    const index =
-                      validateForm.platforms.indexOf('PlayStation 5');
-                    validateForm.platforms.splice(index, 1);
-                    this.setState({
-                      isPs5Checked: false,
-                    });
-                  }
-                }}
-                forwardRef3={this.ps4CheckboxRef}
-                onchange3={() => {
-                  if (this.ps4CheckboxRef.current?.checked) {
-                    this.setState({
-                      isPs4Checked: true,
-                    });
-                  } else {
-                    const index =
-                      validateForm.platforms.indexOf('PlayStation 4');
-                    validateForm.platforms.splice(index, 1);
-                    this.setState({
-                      isPs4Checked: false,
-                    });
-                  }
-                }}
-                forwardRef4={this.xboxOneCheckboxRef}
-                onchange4={() => {
-                  if (this.xboxOneCheckboxRef.current?.checked) {
-                    this.setState({
-                      isXboxOneChecked: true,
-                    });
-                  } else {
-                    const index = validateForm.platforms.indexOf('Xbox One');
-                    validateForm.platforms.splice(index, 1);
-                    this.setState({
-                      isXboxOneChecked: false,
-                    });
-                  }
-                }}
-                forwardRef5={this.nintendoCheckboxRef}
-                onchange5={() => {
-                  if (this.nintendoCheckboxRef.current?.checked) {
-                    this.setState({
-                      isNintendoChecked: true,
-                    });
-                  } else {
-                    const index =
-                      validateForm.platforms.indexOf('Nintendo Switch');
-                    validateForm.platforms.splice(index, 1);
-                    this.setState({
-                      isNintendoChecked: false,
-                    });
-                  }
-                }}
-                forwardRef6={this.xboxSeriesCheckboxRef}
-                onchange6={() => {
-                  if (this.xboxSeriesCheckboxRef.current?.checked) {
-                    this.setState({
-                      isXboxSeriesChecked: true,
-                    });
-                  } else {
-                    const index =
-                      validateForm.platforms.indexOf('Xbox Series X/S');
-                    validateForm.platforms.splice(index, 1);
-                    this.setState({
-                      isXboxSeriesChecked: false,
-                    });
-                  }
-                }}
-                isWindowsChecked={this.state.isWindowsChecked}
-                isPs5Checked={this.state.isPs5Checked}
-                isPs4Checked={this.state.isPs4Checked}
-                isXboxOneChecked={this.state.isXboxOneChecked}
-                isNintendoChecked={this.state.isNintendoChecked}
-                isXboxSeriesChecked={this.state.isXboxSeriesChecked}
-              />
-              <p
-                className="form__error"
-                ref={this.platformsErrRef}
-                style={this.state.platformErrorVisibility}
-              >
-                Choose at least one platform
-              </p>
-              <p className="form__subtitle">I am</p>
-              <RadioButtons />
-              <ButtonSubmit checkForm={this.checkForm} />
-              <p className="form__card-added" style={this.state.addedCard}>
-                Data has been saved
-              </p>
-            </form>
-          </div>
-        </section>
-        <section className="add-card__section new-cards__section">
-          <NewCards />
-        </section>
-      </div>
-    );
   }
+
+  return (
+    <div className="add-card__container">
+      <section className="add-card__section form__section">
+        <div className="add-card__section-wrapper">
+          <form className="form">
+            <p className="form__subtitle">Name</p>
+            <input
+              className="form__name form__input"
+              type="text"
+              placeholder="Name of game"
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                validateForm.name = e.target.value;
+              }}
+              style={nameErrBorder}
+            ></input>
+            <label
+              htmlFor="add-file"
+              className="form__submit-photo-label"
+              style={fileErr}
+            >
+              <input
+                className="form__submit-photo"
+                type="file"
+                id="add-file"
+                accept="image/png, image/gif, image/jpeg, image/jpg, .svg"
+                onChange={(e) => {
+                  let name = '';
+                  let url = '';
+                  if (e.target.files) {
+                    name = e.target.files[0].name;
+                    url = URL.createObjectURL(e.target.files[0]);
+                  }
+                  setInputFileValue(name);
+                  setFileVal(e.target.value);
+                  validateForm.file = url;
+                }}
+                value={fileVal}
+              ></input>
+              <span className="form__submit-photo-text choose-file">
+                Choose file
+              </span>
+              <span className="form__submit-photo-text">{inputFileValue}</span>
+            </label>
+            <p className="form__error" style={nameErr}>
+              Name should not be empty and include 5 symbols or more
+            </p>
+            <p className="form__subtitle">Release date</p>
+            <input
+              className="form__date form__input"
+              type="date"
+              onChange={(e) => {
+                validateForm.date = `${e.target.value}`;
+                setInputDateVal(e.target.value);
+              }}
+              value={inputDateVal}
+              style={dateErrBorder}
+            ></input>
+            <p className="form__error" style={dateErr}>
+              Enter release date
+            </p>
+            <p className="form__subtitle">Genre</p>
+            <div className="select">
+              <select
+                className="form__select form__input"
+                onChange={(e) => {
+                  validateForm.genre = `${e.target.value}`;
+                }}
+              >
+                <option>Survival horror</option>
+                <option>Action/RPG</option>
+                <option>First person shooter</option>
+                <option>Hack and slash</option>
+              </select>
+            </div>
+            <p className="form__error">Choose game genre</p>
+            <p className="form__subtitle">Platforms</p>
+            <div className="checkbox__container">
+              <input
+                className="form__checkbox"
+                type="checkbox"
+                id="windows"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    validateForm.platforms.push('Windows');
+                    setWindowsCheck(true);
+                  } else {
+                    const i = validateForm.platforms.indexOf('Windows');
+                    validateForm.platforms.splice(i, 1);
+                    setWindowsCheck(false);
+                  }
+                }}
+                checked={windowsCheck}
+              ></input>
+              <label className="form__label" htmlFor="windows">
+                Windows
+              </label>
+              <input
+                className="form__checkbox"
+                type="checkbox"
+                id="ps5"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    validateForm.platforms.push('PlayStation 5');
+                    setPs5Check(true);
+                  } else {
+                    const i = validateForm.platforms.indexOf('PlayStation 5');
+                    validateForm.platforms.splice(i, 1);
+                    setPs5Check(false);
+                  }
+                }}
+                checked={ps5Check}
+              ></input>
+              <label className="form__label" htmlFor="ps5">
+                PlayStation 5
+              </label>
+              <input
+                className="form__checkbox"
+                type="checkbox"
+                id="ps4"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    validateForm.platforms.push('PlayStation 4');
+                    setPs4Check(true);
+                  } else {
+                    const i = validateForm.platforms.indexOf('PlayStation 4');
+                    validateForm.platforms.splice(i, 1);
+                    setPs4Check(false);
+                  }
+                }}
+                checked={ps4Check}
+              ></input>
+              <label className="form__label" htmlFor="ps4">
+                PlayStation 4
+              </label>
+              <input
+                className="form__checkbox"
+                type="checkbox"
+                id="xbox-one"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    validateForm.platforms.push('Xbox One');
+                    setXboxCheck(true);
+                  } else {
+                    const i = validateForm.platforms.indexOf('Xbox One');
+                    validateForm.platforms.splice(i, 1);
+                    setXboxCheck(false);
+                  }
+                }}
+                checked={xboxCheck}
+              ></input>
+              <label className="form__label" htmlFor="xbox-one">
+                Xbox One
+              </label>
+              <input
+                className="form__checkbox"
+                type="checkbox"
+                id="nintendo"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    validateForm.platforms.push('Nintendo');
+                    setNintendoCheck(true);
+                  } else {
+                    const i = validateForm.platforms.indexOf('Nintendo');
+                    validateForm.platforms.splice(i, 1);
+                    setNintendoCheck(false);
+                  }
+                }}
+                checked={nintendoCheck}
+              ></input>
+              <label className="form__label" htmlFor="nintendo">
+                Nintendo Switch
+              </label>
+              <input
+                className="form__checkbox"
+                type="checkbox"
+                id="xbox-series-x"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    validateForm.platforms.push('Xbox Series X/S');
+                    setXboxSerCheck(true);
+                  } else {
+                    const i = validateForm.platforms.indexOf('Xbox Series X/S');
+                    validateForm.platforms.splice(i, 1);
+                    setXboxSerCheck(false);
+                  }
+                }}
+                checked={xboxSerCheck}
+              ></input>
+              <label className="form__label" htmlFor="xbox-series-x">
+                Xbox Series X/S
+              </label>
+            </div>
+            <p className="form__error" style={platformsErr}>
+              Choose at least one platform
+            </p>
+            <p className="form__subtitle">I am</p>
+            {radioBtns && <RadioButtons />}
+            <button
+              type="submit"
+              className="form__button"
+              onClick={() => {
+                event?.preventDefault();
+                checkForm();
+              }}
+            >
+              submit
+            </button>
+            <p className="form__card-added" style={savedData}>
+              Data has been saved
+            </p>
+          </form>
+        </div>
+      </section>
+      <section className="add-card__section new-cards__section">
+        <NewCards />
+      </section>
+    </div>
+  );
 }
 
-export default Form;
+export default ShowForm;

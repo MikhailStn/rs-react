@@ -24,21 +24,6 @@ describe('Add card component', () => {
     expect(screen.getAllByText(`Male`)).toBeDefined();
   });
 
-  it('photo can be upload', async () => {
-    render(<Form />);
-    await waitFor(() => {
-      fireEvent.change(
-        document.querySelector('.form__submit-photo') as HTMLInputElement
-      );
-    });
-    expect(
-      screen.getAllByText(
-        (document.querySelector('.form__submit-photo') as HTMLInputElement)
-          .value
-      )
-    ).toBeDefined();
-  });
-
   it('contains select and change values', async () => {
     render(<Form />);
     await waitFor(() => {

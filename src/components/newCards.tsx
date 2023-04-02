@@ -1,5 +1,5 @@
-import React, { Component, CSSProperties } from 'react';
-import { addedItems } from './formState';
+import React, { CSSProperties } from 'react';
+import { addedItems } from './form';
 import { IValidationForm } from 'interfaces/interfaces';
 
 function NewCards() {

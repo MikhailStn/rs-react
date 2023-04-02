@@ -1,5 +1,5 @@
 import React from 'react';
-import { validateForm } from './formHooks';
+import { validateForm } from './form';
 
 function RadioButtons() {
   return (
