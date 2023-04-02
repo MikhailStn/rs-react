@@ -1,11 +1,8 @@
-import React from 'react';
 import './addCard.css';
-import Form from '../components/form';
+import showForm from '../components/formHooks';
 
-class AddCard extends React.PureComponent {
-  render() {
-    return <Form />;
-  }
+function showAddCard() {
+  return showForm();
 }
 
-export default AddCard;
+export default showAddCard;

@@ -5,18 +5,38 @@ import SearchBar from '../components/searchBar';
 import { items } from '../data/games';
 
 function MainPage() {
+  function showSearch() {
+    const [searchBar, setSearchBar] = React.useState(false);
+    React.useEffect(() => {
+      setSearchBar(true);
+    }, []);
+    return (
+      <div className="main-page__section-wrapper">
+        {searchBar && <SearchBar />}
+      </div>
+    );
+  }
+
+  function showCards() {
+    const [cards, setCards] = React.useState(false);
+    React.useEffect(() => {
+      setCards(true);
+    }, []);
+    return (
+      <div className="main-page__section-wrapper">
+        {cards && <Cards cards={items} />}
+      </div>
+    );
+  }
+
   return (
     <main className="main-page">
       <div className="main-page__container">
         <section className="main-page__section search-bar__section">
-          <div className="main-page__section-wrapper">
-            <SearchBar />
-          </div>
+          {showSearch()}
         </section>
         <section className="main-page__section cards__section">
-          <div className="main-page__section-wrapper">
-            <Cards cards={items} />
-          </div>
+          {showCards()}
         </section>
       </div>
     </main>

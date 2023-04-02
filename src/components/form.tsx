@@ -10,6 +10,7 @@ import NewCards from './newCards';
 import { states } from './formState';
 import { addedItems } from './formState';
 import ButtonSubmit from './buttonSubmit';
+import showForm from './formHooks';
 
 export let validateForm: IValidationForm = {
   id: 0,
@@ -187,7 +188,6 @@ class Form extends Component {
       <div className="add-card__container">
         <section className="add-card__section form__section">
           <div className="add-card__section-wrapper">
-            <div></div>
             <form className="form" ref={this.formRef}>
               <p className="form__subtitle">Name</p>
               <InputName
