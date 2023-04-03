@@ -3,6 +3,7 @@ import '../pages/addCard.css';
 import { IValidationForm } from 'interfaces/interfaces';
 import RadioButtons from './radioBtns';
 import NewCards from './newCards';
+import { useForm } from 'react-hook-form';
 
 export const addedItems: IValidationForm[] = [];
 
@@ -17,6 +18,7 @@ export let validateForm: IValidationForm = {
 };
 
 function ShowForm() {
+  const { register, handleSubmit } = useForm();
   const [radioBtns, setRadio] = React.useState(false);
   React.useEffect(() => {
     setRadio(true);
@@ -110,6 +112,10 @@ function ShowForm() {
           <form className="form">
             <p className="form__subtitle">Name</p>
             <input
+              {...register('NameOfGame', {
+                required: true,
+                minLength: 5,
+              })}
               className="form__name form__input"
               type="text"
               placeholder="Name of game"
@@ -126,6 +132,9 @@ function ShowForm() {
               style={fileErr}
             >
               <input
+                {...register('Image', {
+                  required: true,
+                })}
                 className="form__submit-photo"
                 type="file"
                 id="add-file"
@@ -153,6 +162,9 @@ function ShowForm() {
             </p>
             <p className="form__subtitle">Release date</p>
             <input
+              {...register('Date', {
+                required: true,
+              })}
               className="form__date form__input"
               type="date"
               onChange={(e) => {
@@ -308,6 +320,7 @@ function ShowForm() {
               onClick={() => {
                 event?.preventDefault();
                 checkForm();
+                handleSubmit;
               }}
             >
               submit
