@@ -2,7 +2,6 @@ import React from 'react';
 import './mainPage.css';
 import Cards from '../components/cards';
 import SearchBar from '../components/searchBar';
-import { items } from '../data/games';
 
 function MainPage() {
   function ShowSearch() {
@@ -23,9 +22,7 @@ function MainPage() {
       setCards(true);
     }, []);
     return (
-      <div className="main-page__section-wrapper">
-        {cards && <Cards cards={items} />}
-      </div>
+      <div className="main-page__section-wrapper">{cards && <Cards />}</div>
     );
   }
 

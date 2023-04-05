@@ -3,19 +3,21 @@ import React, { useEffect } from 'react';
 function SearchBar() {
   const [inputVal, setInputVal] = React.useState('');
 
-  // when component mounts
+  const inputRef = React.useRef(inputVal);
+
+  React.useEffect(() => {
+    inputRef.current = inputVal;
+  }, [inputVal]);
+
   useEffect(() => {
     const val = localStorage.getItem('curr-search-val');
     if (val) {
       setInputVal(val);
     }
-    return;
+    return () => {
+      localStorage.setItem('curr-search-val', inputRef.current);
+    };
   }, []);
-
-  // when component unmounts
-  useEffect(() => {
-    return localStorage.setItem('curr-search-val', inputVal);
-  }, [inputVal]);
 
   return (
     <div className="search-bar__container">
