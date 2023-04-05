@@ -1,36 +1,40 @@
-import React from 'react';
-import { ISearch } from 'interfaces/interfaces';
+import React, { useEffect } from 'react';
 
-class SearchBar extends React.Component<ISearch, { val: string }> {
-  constructor(props: ISearch) {
-    super(props);
-    this.state = { val: localStorage.getItem('curr-search-val') || '' };
-  }
+function SearchBar() {
+  const [inputVal, setInputVal] = React.useState('');
 
-  componentDidUpdate = () => {
-    localStorage.setItem('curr-search-val', this.state.val);
-  };
+  const inputRef = React.useRef(inputVal);
 
-  updateVal: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    this.setState({ val: e.target.value });
-  };
+  React.useEffect(() => {
+    inputRef.current = inputVal;
+  }, [inputVal]);
 
-  render() {
-    return (
-      <div className="search-bar__container">
-        <div className="search-bar">
-          <i className="search-bar__icon"></i>
-          <input
-            className="search-bar__input"
-            placeholder="Game, studio or platform"
-            value={this.state.val}
-            onChange={this.updateVal}
-          ></input>
-        </div>
-        <button className="search-bar__button">search</button>
+  useEffect(() => {
+    const val = localStorage.getItem('curr-search-val');
+    if (val) {
+      setInputVal(val);
+    }
+    return () => {
+      localStorage.setItem('curr-search-val', inputRef.current);
+    };
+  }, []);
+
+  return (
+    <div className="search-bar__container">
+      <div className="search-bar">
+        <i className="search-bar__icon"></i>
+        <input
+          className="search-bar__input"
+          placeholder="Game, studio or platform"
+          onChange={(e) => {
+            setInputVal(e.target.value);
+          }}
+          value={inputVal}
+        ></input>
       </div>
-    );
-  }
+      <button className="search-bar__button">search</button>
+    </div>
+  );
 }
 
 export default SearchBar;
