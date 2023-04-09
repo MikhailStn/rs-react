@@ -1,32 +1,21 @@
 import React, { CSSProperties } from 'react';
-import { items } from '../data/games';
-import { IGames } from 'interfaces/interfaces';
 import './cards.css';
+import { IPhoto } from 'interfaces/interfaces';
+import { reqItems } from '../pages/mainPage';
 
 function Cards() {
   return (
     <div className="cards__container">
-      {items.map((el: IGames) => {
+      {reqItems.map((el: IPhoto) => {
         const backroundImage: CSSProperties = {
-          backgroundImage: `url('../../posters/${el.id}.jpg')`,
+          backgroundImage: `url('${el.url_l}')`,
         };
         return (
           <div key={el.id} className="card">
             <div className="card__poster" style={backroundImage}>
-              <div className="card__rate" title="Based on Steam rating">
-                {el.rate}
-              </div>
-              <div className="card__name">{el.name}</div>
             </div>
             <div className="card__subtitles">
-              <p className="card__subtitle card__genre">{el.genre}</p>
-              <div className="card__subtitle-wrapper">
-                <p className="card__subtitle card__release">Release:</p>
-                <p className="card__subtitle card__release">
-                  {el.dateOfRelease}
-                </p>
-              </div>
-              <p className="card__subtitle card__platforms">{el.platforms}</p>
+              <p className="card__subtitle card__genre">{el.title}</p>
             </div>
           </div>
         );

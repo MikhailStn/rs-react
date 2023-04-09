@@ -43,3 +43,18 @@ export interface ICreateFormProps {
 export interface InputNameProps {
   forwardedRef?: React.RefObject<HTMLInputElement>;
 }
+
+export interface IPhoto {
+  farm: number;
+  height_l: number;
+  id: string;
+  isfamily: number;
+  isfriend: number;
+  ispublic: number;
+  owner: string;
+  secret: string;
+  server: string;
+  title: string;
+  url_l: string;
+  width_l: number;
+}
