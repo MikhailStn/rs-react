@@ -12,8 +12,10 @@ function Cards() {
         };
         return (
           <div key={el.id} className="card">
-            <div className="card__poster" style={backroundImage}>
+            <div className="popup">
+              <div className='popup__overlay'></div>
             </div>
+            <div className="card__poster" style={backroundImage}></div>
             <div className="card__subtitles">
               <p className="card__subtitle card__genre">{el.title}</p>
             </div>
