@@ -1,12 +1,14 @@
 import React, { CSSProperties } from 'react';
-import './mainPage.css';
 import { IPhoto } from 'interfaces/interfaces';
-export let reqItems: IPhoto[] = [];
+import './mainPage.css';
 import '../components/cards.css';
+
+export let reqItems: IPhoto[] = [];
 
 function MainPage() {
   const apiKey = '281c4097e2196ad0dc6db1c72812ab66';
   function sendReq(req: string) {
+    setsplashScreen({ display: 'flex' });
     if (req == '') {
       req = 'all';
     }
@@ -25,6 +27,7 @@ function MainPage() {
         }
         console.log(reqItems);
         setCards(cards);
+        setsplashScreen({ display: 'none' });
       });
   }
   const [inputVal, setInputVal] = React.useState('');
@@ -43,27 +46,67 @@ function MainPage() {
     };
   }, []);
 
-  let [cards, setCards] = React.useState(1);
+  const [cards, setCards] = React.useState(1);
 
-  let [popupVisibility, setPopupVisibility] = React.useState({
+  const [popupVisibility, setPopupVisibility] = React.useState({
     display: 'none',
   });
 
+  const [splashScreen, setsplashScreen] = React.useState({
+    display: 'none',
+  });
+
+  const [popupImage, setPopupImage] = React.useState({
+    backgroundImage: `url('')`,
+  });
+
+  const [title, setTitle] = React.useState('');
+  const [owner, setOwner] = React.useState('');
+  const [size, setSize] = React.useState('');
+
+  function showPopup(req: string, id: string) {
+    if (req == '') {
+      req = 'all';
+    }
+    setsplashScreen({ display: 'flex' });
+    fetch(
+      `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${req}&extras=url_l&format=json&nojsoncallback=1`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        let res;
+        for (let i = 0; i < data.photos.photo.length; i++) {
+          if (data.photos.photo[i].id == id) {
+            res = data.photos.photo[i];
+          }
+        }
+        return res;
+      })
+      .then((res) => {
+        setPopupVisibility({ display: 'flex' });
+        setsplashScreen({ display: 'none' });
+        setPopupImage({ backgroundImage: `url('${res.url_l}')` });
+        setTitle(`${res.title}`);
+        setOwner(`${res.owner}`);
+        setSize(`${res.width_l}px x ${res.height_l}px`);
+      });
+  }
+
   return (
     <main className="main-page">
+      <div className="splash-screen" style={splashScreen}>
+        <div className="splash-screen__loader"></div>
+      </div>
       <div className="popup" style={popupVisibility}>
-        <div className="popup__card">
-          <div className="card">
-            <div className="card__poster">
-              <div className="card__name"></div>
-            </div>
-            <div className="card__subtitles">
-              <p className="card__subtitle card__genre"></p>
-              <div className="card__subtitle-wrapper">
-                <p className="card__subtitle card__release">Release:</p>
-                <p className="card__subtitle card__release"></p>
-              </div>
-              <p className="card__subtitle card__platforms"></p>
+        <div className="popup__card-container">
+          <div className="popup__card">
+            <div className="popup__card-poster" style={popupImage}></div>
+            <div className="popup__card-subtitles">
+              <p className="popup__card-sub">Title: {title}</p>
+              <p className="popup__card-sub">Owner: {owner}</p>
+              <p className="popup__card-sub">Size: {size}</p>
             </div>
           </div>
         </div>
@@ -113,7 +156,7 @@ function MainPage() {
                     key={el.id}
                     className="card"
                     onClick={() => {
-                      setPopupVisibility({ display: 'flex' });
+                      showPopup(inputVal, el.id);
                     }}
                   >
                     <div className="popup">
