@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import NewCards from './newCards';
 import { describe, expect, it } from 'vitest';
 
