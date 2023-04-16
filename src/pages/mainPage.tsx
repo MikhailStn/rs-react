@@ -2,6 +2,7 @@ import React, { CSSProperties } from 'react';
 import { IPhoto } from 'interfaces/interfaces';
 import './mainPage.css';
 import '../components/cards.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 export let reqItems: IPhoto[] = [];
 
@@ -93,6 +94,9 @@ function MainPage() {
         setSize(`${res.width_l}px x ${res.height_l}px`);
       });
   }
+
+  const searchDispatch = useDispatch()
+  const searchInp = useSelector(state => {state.searchInp})
 
   return (
     <main className="main-page">
