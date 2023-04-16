@@ -8,18 +8,22 @@
 
 .card {
   width: 280px;
-  height: 500px;
+  height: 310px;
   padding: 0;
   background-color: rgb(73, 73, 73);
   filter: grayscale(40%);
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .card__poster {
-  height: 400px;
+  height: 280px;
   background-size: cover;
   background-position: center;
-  filter: grayscale(100%);
+  filter: grayscale(20%);
   opacity: 0.7;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .card:hover .card__poster {
@@ -39,7 +43,7 @@
 }
 
 .card__subtitles {
-  height: 100px;
+  height: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
